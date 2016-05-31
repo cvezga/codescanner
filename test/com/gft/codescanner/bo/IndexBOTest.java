@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.gft.codescanner.indexing.BitSetIndex;
-import com.gft.codescanner.indexing.BitSetIndex.IndexCounts;
+import com.gft.codescanner.indexing.BitSetItem;
 
 public class IndexBOTest {
 	
@@ -25,9 +25,9 @@ public class IndexBOTest {
 		
 		for(BitSetIndex index : indexList){
 			System.out.println("["+index.getName()+"] ("+index.size()+")");
-			System.out.println("Top 10");
-			for(IndexCounts counts : index.getTopIndexCountList(10)){
-				System.out.println(counts.getValue()+":"+counts.getCount());
+			System.out.println("Top 20");
+			for(BitSetItem counts : index.getTopIndexCountList(20)){
+				System.out.println(counts.getName()+":"+counts.size());
 			}
 		}
 		

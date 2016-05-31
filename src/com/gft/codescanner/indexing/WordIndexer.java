@@ -9,7 +9,7 @@ import com.gft.codescanner.util.FileUtil;
 
 public class WordIndexer implements Indexer {
 	
-	private static final List<String> EXCLUDE = Arrays.asList("package","public","class","import","extends","new","return","if","String");
+	private static final List<String> EXCLUDE = Arrays.asList("package","public","class","import","extends","new","return","if","String","this","void","until","null","true","false","final","private","static","java","int");
 	
 	private WordIndex index;
 	

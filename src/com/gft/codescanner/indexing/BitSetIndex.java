@@ -1,57 +1,35 @@
 package com.gft.codescanner.indexing;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class BitSetIndex {
 	
 	private String name;
-	private Map<String,BitSet> bitsetMap;
+	private Map<String,BitSetItem> bitsetItemMap;
 	
-	public class IndexCounts {
-		private String value;
-		int count;
-		
-		public IndexCounts(String value, int count) {
-			super();
-			this.value = value;
-			this.count = count;
-		}
-		
-		public String getValue() {
-			return value;
-		}
-		
-		public int getCount() {
-			return count;
-		}
-		
-		
-	}
+
 	
 	public BitSetIndex(String name){
 		this.name = name;
-		this.bitsetMap = new HashMap<String, BitSet>();
+		this.bitsetItemMap = new HashMap<String, BitSetItem>();
 	}
 
 	
 	public void index(int id, String value){
-		BitSet bs = getOrCreateBitSet(value);
+		BitSetItem bs = getOrCreateBitSet(value);
 		bs.set(id);
 	}
 
 
-	private BitSet getOrCreateBitSet(String value) {
-		BitSet bs = this.bitsetMap.get(value);
+	private BitSetItem getOrCreateBitSet(String value) {
+		BitSetItem bs = this.bitsetItemMap.get(value);
 		if(bs==null){
-			bs = new BitSet();
-			this.bitsetMap.put(value, bs);
+			bs = new BitSetItem(value);
+			this.bitsetItemMap.put(value, bs);
 		}
 		return bs;
 	}
@@ -62,12 +40,11 @@ public class BitSetIndex {
 	}
 	
 	
-	public List<IndexCounts> getIndexCountList(){
-		List<IndexCounts> indexCounts = new ArrayList<IndexCounts>();
-		for(Entry<String, BitSet> entry : this.bitsetMap.entrySet() ){
-			String value = entry.getKey();
-			BitSet bs = entry.getValue();
-			indexCounts.add( new IndexCounts(value, bs.cardinality()) );
+	public List<BitSetItem> getIndexCountList(){
+		List<BitSetItem> indexCounts = new ArrayList<BitSetItem>();
+		for(BitSetItem entry : this.bitsetItemMap.values() ){
+			
+			indexCounts.add( entry );
 		}
 		
 		return indexCounts;
@@ -75,31 +52,24 @@ public class BitSetIndex {
 
 
 	public int size() {
-		return bitsetMap.size();
+		return bitsetItemMap.size();
 	}
 
 
-	public List<IndexCounts> getTopIndexCountList(int topNum) {
-		List<IndexCounts> indexCounts = new ArrayList<IndexCounts>();
-		for(Entry<String, BitSet> entry : this.bitsetMap.entrySet() ){
-			String value = entry.getKey();
-			BitSet bs = entry.getValue();
-			indexCounts.add( new IndexCounts(value, bs.cardinality()) );
-		}
+	public List<BitSetItem> getTopIndexCountList(int topNum) {
 		
-		Collections.sort(indexCounts, new Comparator<IndexCounts>(){
-
-			public int compare(IndexCounts ic1, IndexCounts ic2) {
-				return ic2.getCount()-ic1.getCount();
-			}
-			
-		});
+		List<BitSetItem> bitSetItems = new ArrayList<BitSetItem>(this.bitsetItemMap.values());
 		
-		List<IndexCounts> topIndexCounts = new ArrayList<IndexCounts>(topNum);
+		Collections.sort(bitSetItems);
+		
+		List<BitSetItem> topIndexCounts = new ArrayList<BitSetItem>(topNum);
+		
+		if(topNum>bitSetItems.size()) topNum=bitSetItems.size();
 		
 		for(int i=0; i<topNum; i++){
-			topIndexCounts.add(indexCounts.get(i));
+			topIndexCounts.add(bitSetItems.get(i));
 		}
+		
 		
 		return topIndexCounts;
 	}
