@@ -2,6 +2,8 @@ package com.gft.codescanner.indexing;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +76,32 @@ public class BitSetIndex {
 
 	public int size() {
 		return bitsetMap.size();
+	}
+
+
+	public List<IndexCounts> getTopIndexCountList(int topNum) {
+		List<IndexCounts> indexCounts = new ArrayList<IndexCounts>();
+		for(Entry<String, BitSet> entry : this.bitsetMap.entrySet() ){
+			String value = entry.getKey();
+			BitSet bs = entry.getValue();
+			indexCounts.add( new IndexCounts(value, bs.cardinality()) );
+		}
+		
+		Collections.sort(indexCounts, new Comparator<IndexCounts>(){
+
+			public int compare(IndexCounts ic1, IndexCounts ic2) {
+				return ic2.getCount()-ic1.getCount();
+			}
+			
+		});
+		
+		List<IndexCounts> topIndexCounts = new ArrayList<IndexCounts>(topNum);
+		
+		for(int i=0; i<topNum; i++){
+			topIndexCounts.add(indexCounts.get(i));
+		}
+		
+		return topIndexCounts;
 	}
 	
 }

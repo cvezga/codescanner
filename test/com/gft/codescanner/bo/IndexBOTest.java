@@ -25,8 +25,9 @@ public class IndexBOTest {
 		
 		for(BitSetIndex index : indexList){
 			System.out.println("["+index.getName()+"] ("+index.size()+")");
-			for(IndexCounts counts : index.getIndexCountList()){
-				//System.out.println(counts.getValue()+":"+counts.getCount());
+			System.out.println("Top 10");
+			for(IndexCounts counts : index.getTopIndexCountList(10)){
+				System.out.println(counts.getValue()+":"+counts.getCount());
 			}
 		}
 		

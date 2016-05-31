@@ -17,14 +17,17 @@ import com.gft.codescanner.indexing.WordIndexer;
 
 public class IndexBO {
 	
-	private List<String> exclude = Arrays.asList(".*\\.class",".*\\.jar",".*\\.dll",".*\\.pdf",".*\\.gz",".*\\.png",".*\\.tgz",".*\\.zip",".*\\.sh",".*\\.sh",".*\\.so",".*\\.csv");
+	private List<String> exclude = Arrays.asList(
+			".*\\.class",".*\\.jar",".*\\.dll",".*\\.pdf",".*\\.gz",".*\\.png",".*\\.tgz",".*\\.zip",".*\\.sh",".*\\.sh",".*\\.so",".*\\.csv",".*\\.cor",".*\\.log",".*\\.sql",".*\\.html"
+			,".*test.*",".*\\\\output\\\\.*"
+			);
 	
 	private IndexerManager indexManager;
 	
 	public IndexBO(){
 		this.indexManager = new IndexerManager();
 		
-		indexManager.register( new WordIndexer(200000L) );
+		indexManager.register( new WordIndexer(250000L) );
 		indexManager.register( new FileTypeIndexer() );
 		indexManager.register( new JavaPackageIndexer() );
 		indexManager.register( new FileSizeIndexer() );

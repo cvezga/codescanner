@@ -2,11 +2,14 @@ package com.gft.codescanner.indexing;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import com.gft.codescanner.util.FileUtil;
 
 public class WordIndexer implements Indexer {
+	
+	private static final List<String> EXCLUDE = Arrays.asList("package","public","class","import","extends","new","return","if","String");
 	
 	private WordIndex index;
 	
@@ -22,7 +25,9 @@ public class WordIndexer implements Indexer {
 		String[] words = line.trim().split("\\W");
 		for(String w : words){
 			if(w.trim().length()>0){
-		      index.index(id, w);
+				if(!EXCLUDE.contains(w)){
+		          index.index(id, w);
+				}
 			}
 		}
 		
