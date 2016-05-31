@@ -6,11 +6,11 @@ import java.util.List;
 
 import com.gft.codescanner.util.FileUtil;
 
-public class PackageIndexer implements Indexer {
+public class JavaPackageIndexer implements Indexer {
 	
 	private WordIndex index;
 	
-	public PackageIndexer(){
+	public JavaPackageIndexer(){
 		this.index = new WordIndex("Package");
 	}
 	
@@ -28,6 +28,8 @@ public class PackageIndexer implements Indexer {
 	}
 
 	public void index(int id, File file)  {
+		if(!file.getName().endsWith(".java")) return;
+		
 		try {
 			List<String> lines = FileUtil.readFile(file);
 			for(String line : lines){

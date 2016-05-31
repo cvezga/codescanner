@@ -11,20 +11,22 @@ import com.gft.codescanner.indexing.BitSetIndex.IndexCounts;
 
 public class IndexBOTest {
 	
+	private static final String PATH = "C:\\cygwin64-cv\\home\\cvezga\\dev\\omega-source\\omega";
+	
 	@Test
 	public void shouldIndexAllfilesInPath() throws Exception{
 		IndexBO bo = new IndexBO();
 		
-		bo.indexFilesOnPath(".");
+		bo.indexFilesOnPath(PATH);
 		
 		List<BitSetIndex> indexList = bo.getBitSetIndexList();
 		
 		assertTrue(indexList.size()>0);
 		
 		for(BitSetIndex index : indexList){
-			System.out.println("["+index.getName()+"]");
+			System.out.println("["+index.getName()+"] ("+index.size()+")");
 			for(IndexCounts counts : index.getIndexCountList()){
-				System.out.println(counts.getValue()+":"+counts.getCount());
+				//System.out.println(counts.getValue()+":"+counts.getCount());
 			}
 		}
 		

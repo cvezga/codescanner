@@ -10,8 +10,11 @@ public class WordIndexer implements Indexer {
 	
 	private WordIndex index;
 	
-	public WordIndexer(){
+	private long maxFileSize;
+	
+	public WordIndexer(long maxFileSize){
 		this.index = new WordIndex("Word");
+		this.maxFileSize = maxFileSize;
 	}
 	
 	private void indexWordsFromLine(int id, String line){
@@ -26,6 +29,10 @@ public class WordIndexer implements Indexer {
 	}
 
 	public void index(int id, File file)  {
+		if(file.length()>maxFileSize){
+			System.out.println("***** File too big: "+file.getPath()+"; size="+file.length());
+			return;
+		}
 		try {
 			List<String> lines = FileUtil.readFile(file);
 			for(String line : lines){

@@ -32,6 +32,7 @@ public class IndexerManager {
 		for(Entry<Integer,File> entry : this.fileMap.entrySet()){
 			Integer id = entry.getKey();
 			File file = entry.getValue();
+			//System.out.println("Indexing file: "+file.getPath()+"; id = "+id+"; size = "+file.length());
 			for(Indexer indexer : this.indexerMap.values() ){
 				indexer.index(id, file);
 			}

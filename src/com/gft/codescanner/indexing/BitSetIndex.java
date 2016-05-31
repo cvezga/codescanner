@@ -70,5 +70,10 @@ public class BitSetIndex {
 		
 		return indexCounts;
 	}
+
+
+	public int size() {
+		return bitsetMap.size();
+	}
 	
 }

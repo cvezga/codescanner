@@ -6,27 +6,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.gft.codescanner.indexing.BitSetIndex;
+import com.gft.codescanner.indexing.FileSizeIndexer;
 import com.gft.codescanner.indexing.FileTypeIndexer;
 import com.gft.codescanner.indexing.FolderScanner;
 import com.gft.codescanner.indexing.Indexer;
 import com.gft.codescanner.indexing.IndexerManager;
-import com.gft.codescanner.indexing.PackageIndexer;
+import com.gft.codescanner.indexing.JavaPackageIndexer;
 import com.gft.codescanner.indexing.WordIndexer;
 
 
 public class IndexBO {
 	
-	private List<String> exclude = Arrays.asList(".*\\.class");
+	private List<String> exclude = Arrays.asList(".*\\.class",".*\\.jar",".*\\.dll",".*\\.pdf",".*\\.gz",".*\\.png",".*\\.tgz",".*\\.zip",".*\\.sh",".*\\.sh",".*\\.so",".*\\.csv");
 	
 	private IndexerManager indexManager;
 	
 	public IndexBO(){
 		this.indexManager = new IndexerManager();
 		
-		indexManager.register( new WordIndexer() );
+		indexManager.register( new WordIndexer(200000L) );
 		indexManager.register( new FileTypeIndexer() );
-		indexManager.register( new PackageIndexer() );
-		
+		indexManager.register( new JavaPackageIndexer() );
+		indexManager.register( new FileSizeIndexer() );
 		
 	}
 
@@ -35,10 +36,12 @@ public class IndexBO {
 		
 		List<File> files = folderScanner.getFileList();
 		
+		/**
 		for(File f : files){
 			System.out.println(f.getPath());
 		}
-		System.out.println(files.size());
+		**/
+		System.out.println("Number of files = "+ files.size());
 		
 		indexManager.index(files);
 	}
