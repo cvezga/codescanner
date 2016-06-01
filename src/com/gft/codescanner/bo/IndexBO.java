@@ -3,6 +3,7 @@ package com.gft.codescanner.bo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.List;
 
 import com.gft.codescanner.indexing.BitSetIndex;
@@ -55,5 +56,14 @@ public class IndexBO {
 			bsiList.add(indexer.getBitSetIndex());
 		}
 		return bsiList;
+	}
+
+	public List<File> getMathes(String index, String value) {
+		BitSetIndex bsindex = indexManager.getIndex(index);
+		BitSet bs = bsindex.getBitSet(value);
+		if(bs!=null){
+			return this.indexManager.getFiles(bs);
+		}
+		return null;
 	}
 }

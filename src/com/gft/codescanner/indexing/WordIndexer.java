@@ -36,7 +36,7 @@ public class WordIndexer implements Indexer {
 	public void index(int id, File file)  {
 		if(file.length()>maxFileSize){
 			System.out.println("***** File too big: "+file.getPath()+"; size="+file.length());
-			return;
+			if(!file.getName().endsWith(".java")) return;
 		}
 		try {
 			List<String> lines = FileUtil.readFile(file);

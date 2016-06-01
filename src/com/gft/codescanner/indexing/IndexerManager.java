@@ -1,6 +1,8 @@
 package com.gft.codescanner.indexing;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +53,20 @@ public class IndexerManager {
 	
 	public Collection<Indexer> getIndexers(){
 		return this.indexerMap.values();
+	}
+
+	public BitSetIndex getIndex(String index) {
+		return this.indexerMap.get(index).getBitSetIndex();
+	}
+
+	public List<File> getFiles(BitSet bs) {
+		List<File> files = new ArrayList<File>();
+		for(Entry<Integer,File> entry : this.fileMap.entrySet()){
+			if(bs.get(entry.getKey())){
+				files.add(entry.getValue());
+			}
+		}
+		return files;
 	}
 	
 
